@@ -12,10 +12,15 @@
         <span class="iconfont iconnew"></span>
       </div>
       <div class="inputs">
-        <!-- <input  placeholder="请输入手机号" class="input" /> -->
-        <hminput></hminput>
-        <!-- <input placeholder="密码" class="input" type="password" /> -->
-          <hminput></hminput>
+        <hminput
+          placeholder="请输入用户名/手机号"
+          :value="users.username"
+          @input="hanlderinput"
+          :rules="/^1\d{10}$/"
+          msg_err="手机号输入不合法，请输入11位手机号"
+        ></hminput>
+
+        <hminput type="password" placeholder="请输入密码"></hminput>
       </div>
       <p class="tips">
         没有账号？
@@ -30,12 +35,24 @@
 import hminput from '@/components/hm_input.vue'
 import hmbutton from '@/components/hm_button.vue'
 export default {
+  data () {
+    return {
+      users: {
+        username: '123',
+        password: '222'
+      }
+    }
+  },
   components: {
-    hmbutton, hminput
+    hmbutton,
+    hminput
   },
   methods: {
     login () {
       this.$toast.fail(this.msg_err)
+    },
+    hanlderinput (data) {
+      this.users.username = data
     }
   }
 }
