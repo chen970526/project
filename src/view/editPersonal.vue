@@ -11,7 +11,11 @@
     <van-dialog v-model="nickshow" title="标题" show-cancel-button @confirm="updateNickname">
       <van-field required :value="current.nickname" label="昵称" placeholder="请输入昵称" ref="nickname" />
     </van-dialog>
-    <hmcell title="密码" :desc="current.password"></hmcell>
+    <hmcell title="密码" type="password" :desc="current.password" @click="passshow=!passshow"></hmcell>
+    <van-dialog v-model="passshow" title="修改密码" show-cancel-button @confirm="updatePassword">
+      <van-field required label="原密码" placeholder="请输入原密码" ref="oldPwd" />
+      <van-field required label="新密码" placeholder="请输入新密码" ref="newPwd" />
+    </van-dialog>
     <hmcell title="性别" :desc="current.gender"></hmcell>
   </div>
 </template>
@@ -31,7 +35,8 @@ export default {
     return {
       id: '',
       current: {},
-      nickshow: false
+      nickshow: false,
+      passshow: false
     }
   },
   mounted () {
@@ -97,6 +102,27 @@ export default {
         this.current.nickname = nickname
       } else {
         this.$toast.fail('修改昵称失败')
+      }
+    },
+    async updatePassword () {
+      let oldPwd = this.$refs.oldPwd.$refs.input.value
+      // console.log(oldPwd)
+      if (this.current.password === oldPwd) {
+        let password = this.$refs.newPwd.$refs.input.value
+        if (!/\w{3,16}/.test(password)) {
+          this.$toast.fail('请输入3~16位的新密码')
+          return
+        }
+        let res = await editUser(this.id, { password })
+        console.log(res)
+        if (res.data.message === '修改成功') {
+          this.$toast.success('修改成功')
+          localStorage.removeItem('heima_40_token')
+          localStorage.removeItem('hm_40_baseURL')
+          this.$router.push({ name: 'login' })
+        }
+      } else {
+        this.$toast.fail('原始密码输入不正确')
       }
     }
   }

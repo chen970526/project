@@ -10,7 +10,7 @@ Vue.use(VueRouter)
 
 var router = new VueRouter({
   routes: [{
-    nane: 'login',
+    name: 'login',
     path: '/login',
     component: Login
   }, {
