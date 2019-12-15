@@ -7,7 +7,8 @@ import {
   Icon,
   Uploader,
   Dialog,
-  Field
+  Field,
+  Picker
 } from 'vant'
 Vue.config.productionTip = false
 Vue.use(Toast)
@@ -15,6 +16,7 @@ Vue.use(Icon)
 Vue.use(Uploader)
 Vue.use(Dialog)
 Vue.use(Field)
+Vue.use(Picker)
 new Vue({
   router,
   render: h => h(App)

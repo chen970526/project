@@ -16,7 +16,10 @@
       <van-field required label="原密码" placeholder="请输入原密码" ref="oldPwd" />
       <van-field required label="新密码" placeholder="请输入新密码" ref="newPwd" />
     </van-dialog>
-    <hmcell title="性别" :desc="current.gender"></hmcell>
+    <hmcell title="性别" :desc="current.gender===1?'男':'女'" @click="gendershow=!gendershow"></hmcell>
+    <van-dialog v-model="gendershow" title="修改性别" show-cancel-button @confirm="updateGender">
+      <van-picker :columns="['女','男']" :default-index="current.gender" @change="onChange" />
+    </van-dialog>
   </div>
 </template>
 
@@ -36,7 +39,9 @@ export default {
       id: '',
       current: {},
       nickshow: false,
-      passshow: false
+      passshow: false,
+      gendershow: false,
+      genderIndex: ''
     }
   },
   mounted () {
@@ -123,6 +128,22 @@ export default {
         }
       } else {
         this.$toast.fail('原始密码输入不正确')
+      }
+    },
+    onChange (picker, value, index) {
+      // this.$toast(`当前值：${value}, 当前索引：${index}`)
+      // console.log(picker, value, index)
+      this.genderIndex = index
+    },
+    async updateGender () {
+      // console.log(this.genderIndex)
+      let res = await editUser(this.id, { gender: this.genderIndex })
+      console.log(res)
+      if (res.data.message === '修改成功') {
+        this.$toast.success('修改性别成功')
+        this.current.gender = this.genderIndex
+      } else {
+        this.$toast.fail('修改性别失败')
       }
     }
   }
