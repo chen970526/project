@@ -12,7 +12,13 @@
       <van-field required :value="current.nickname" label="昵称" placeholder="请输入昵称" ref="nickname" />
     </van-dialog>
     <hmcell title="密码" type="password" :desc="current.password" @click="passshow=!passshow"></hmcell>
-    <van-dialog v-model="passshow" title="修改密码" show-cancel-button @confirm="updatePassword">
+    <van-dialog
+      v-model="passshow"
+      title="修改密码"
+      show-cancel-button
+      @confirm="updatePassword"
+      :before-close="beforeClose"
+    >
       <van-field required label="原密码" placeholder="请输入原密码" ref="oldPwd" />
       <van-field required label="新密码" placeholder="请输入新密码" ref="newPwd" />
     </van-dialog>
@@ -128,6 +134,20 @@ export default {
         }
       } else {
         this.$toast.fail('原始密码输入不正确')
+      }
+    },
+    beforeClose (action, done) {
+      // 1.获取原密码
+      let oldPwd = this.$refs.oldPwd.$refs.input.value
+      let password = this.$refs.newPwd.$refs.input.value
+      if (action === 'confirm' && this.current.passshow !== oldPwd) {
+        this.$toast.fail('原始密码不一样')
+        done(false)
+      } else if (action === 'confirm' && !/\w{3,16}/.test(password)) {
+        this.$toast.fail('请输入3~16位的新密码')
+        done(false)
+      } else {
+        done()
       }
     },
     onChange (picker, value, index) {
