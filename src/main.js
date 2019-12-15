@@ -2,9 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router/index.js'
 import '@/styles/reset.css'
-import { Toast } from 'vant'
+import {
+  Toast,
+  Icon,
+  Uploader,
+  Dialog,
+  Field
+} from 'vant'
 Vue.config.productionTip = false
 Vue.use(Toast)
+Vue.use(Icon)
+Vue.use(Uploader)
+Vue.use(Dialog)
+Vue.use(Field)
 new Vue({
   router,
   render: h => h(App)

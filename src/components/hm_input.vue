@@ -5,7 +5,9 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      statu: false
+    }
   },
   props: ['value', 'rules', 'msg_err'],
   // mounted() {

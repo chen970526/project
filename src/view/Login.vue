@@ -20,7 +20,7 @@
           msg_err="手机号输入不合法，请输入11位手机号"
         ></hminput>
 
-        <hminput type="password" placeholder="请输入密码"></hminput>
+        <hminput type="password" placeholder="请输入密码" v-model="users.password"></hminput>
       </div>
       <p class="tips">
         没有账号？
@@ -34,12 +34,14 @@
 <script>
 import hminput from '@/components/hm_input.vue'
 import hmbutton from '@/components/hm_button.vue'
+// 引入登陆api方法
+import { userLogin } from '@/api/users.js'
 export default {
   data () {
     return {
       users: {
-        username: '123',
-        password: '222'
+        username: '10086',
+        password: '123'
       }
     }
   },
@@ -48,8 +50,22 @@ export default {
     hminput
   },
   methods: {
-    login () {
-      this.$toast.fail(this.msg_err)
+    login (event) {
+      userLogin(this.users)
+        .then(res => {
+          console.log(res)
+          if (res.data.message === '登录成功') {
+            localStorage.setItem('heima_40_token', res.data.data.token)
+            // 页面跳转
+            this.$router.push({ path: `/personal/${res.data.data.user.id}` })
+          } else {
+            this.$toast.fail(res.data.message)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+          this.$toast.fail('登陆失败，请重试')
+        })
     },
     hanlderinput (data) {
       this.users.username = data
