@@ -2,10 +2,11 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 
-import Login from '../view/Login.vue'
-import Personal from '../view/Personal.vue'
-import EditPersonal from '../view/editPersonal.vue'
-import Register from '../view/Register.vue'
+import Login from '@/view/Login.vue'
+import Personal from '@/view/Personal.vue'
+import EditPersonal from '@/view/editPersonal.vue'
+import Register from '@/view/Register.vue'
+import Index from '@/view/Index.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,10 @@ var router = new VueRouter({
     name: 'Register',
     path: '/register',
     component: Register
+  }, {
+    name: 'Index',
+    path: '/',
+    component: Index
   }]
 })
 

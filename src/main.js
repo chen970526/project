@@ -8,7 +8,9 @@ import {
   Uploader,
   Dialog,
   Field,
-  Picker
+  Picker,
+  Tab,
+  Tabs
 } from 'vant'
 Vue.config.productionTip = false
 Vue.use(Toast)
@@ -17,6 +19,8 @@ Vue.use(Uploader)
 Vue.use(Dialog)
 Vue.use(Field)
 Vue.use(Picker)
+Vue.use(Tab)
+Vue.use(Tabs)
 new Vue({
   router,
   render: h => h(App)
