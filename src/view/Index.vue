@@ -9,7 +9,20 @@
     </div>
     <van-tabs v-model="active" sticky swipeable>
       <van-tab :title="cate.name" v-for="cate in cateList" :key="cate.id">
-        <articleblock v-for="post in cate.postList" :key="post.id" :post="post"></articleblock>
+        <van-list
+          :immediate-check="false"
+          :offset="10"
+          v-model="cate.loading"
+          :finished="cate.finished"
+          finished-text="我也是有底线的~"
+          @load="onLoad"
+        >
+          <!-- 下拉刷新 -->
+          <van-pull-refresh v-model="cate.isLoading" @refresh="onRefresh">
+            <!-- 动态渲染当前栏目的新闻数据 -->
+            <articleblock v-for="post in cate.postList" :key="post.id" :post="post"></articleblock>
+          </van-pull-refresh>
+        </van-list>
       </van-tab>
     </van-tabs>
     <div class="newsList"></div>
@@ -40,7 +53,10 @@ export default {
           ...value, // 保留之前栏目的属性
           postList: [], // 新闻列表，栏目的新闻数据应该存储在这个数组中
           pageIndex: 1, // 页码
-          pageSize: 5 // 每页的记录数
+          pageSize: 5, // 每页的记录数
+          loading: false, // 当前栏目更多数据加载状态，默认为不在加载数据
+          finished: false, // 数据是否已经完毕加载完毕，默认为没有完毕
+          isLoading: false // 标记是否处于下拉刷新的状态，默认为false
         }
       })
       let res1 = await getArticleList({
@@ -68,7 +84,30 @@ export default {
         category: this.cateList[this.active].id
       })
       console.log(res)
-      this.cateList[this.active].postList = res.data.data
+      // this.cateList[this.active].postList = res.data.data
+      this.cateList[this.active].postList.push(...res.data.data)
+      // 本次获取了数据之后，将loading重置为false
+      this.cateList[this.active].loading = false
+      // 重置isLoading,让下拉刷新的提示消失
+      this.cateList[this.active].isLoading = false
+      // 判断是否数据已经完全加载完毕
+      if (res.data.data.length < this.cateList[this.active].pageSize) {
+        this.cateList[this.active].finished = true
+      }
+    },
+    onLoad () {
+      this.cateList[this.active].pageIndex++
+      this.getPostList()
+    },
+    onRefresh () {
+      // console.log(123)
+      this.cateList[this.active].pageIndex = 1
+      // 重置为False的作用就是让这个栏目可以重新的上拉加载更多数据
+      this.cateList[this.active].finished = false
+      // 清除数组的所有数据，可以避免反复的创建新的数组
+      this.cateList[this.active].postList.length = 0
+      // 获取数据
+      this.getPostList()
     }
   }
 }

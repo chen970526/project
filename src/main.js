@@ -10,7 +10,9 @@ import {
   Field,
   Picker,
   Tab,
-  Tabs
+  Tabs,
+  List,
+  PullRefresh
 } from 'vant'
 Vue.config.productionTip = false
 Vue.use(Toast)
@@ -21,6 +23,8 @@ Vue.use(Field)
 Vue.use(Picker)
 Vue.use(Tab)
 Vue.use(Tabs)
+Vue.use(List)
+Vue.use(PullRefresh)
 new Vue({
   router,
   render: h => h(App)
