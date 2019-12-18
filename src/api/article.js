@@ -8,3 +8,11 @@ export const getArticleList = (params) => {
     params
   })
 }
+
+// 根据文章id获取文章详细
+
+export const getArticleDetail = (id) => {
+  return axios({
+    url: `/psot/${id}`
+  })
+}

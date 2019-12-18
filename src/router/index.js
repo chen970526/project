@@ -7,6 +7,7 @@ import Personal from '@/view/Personal.vue'
 import EditPersonal from '@/view/editPersonal.vue'
 import Register from '@/view/Register.vue'
 import Index from '@/view/Index.vue'
+// import ArticleDetail from '../view/'
 
 Vue.use(VueRouter)
 
