@@ -13,6 +13,22 @@ export const getArticleList = (params) => {
 
 export const getArticleDetail = (id) => {
   return axios({
-    url: `/psot/${id}`
+    url: `/post/${id}`
+  })
+}
+
+// 文章点赞
+
+export const likeArticleById = (id) => {
+  return axios({
+    url: `/post_like/${id}`
+  })
+}
+
+// 文章的收藏
+
+export const collectArticleById = (id) => {
+  return axios({
+    url: `/post_star/${id}`
   })
 }

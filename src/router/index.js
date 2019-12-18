@@ -7,7 +7,8 @@ import Personal from '@/view/Personal.vue'
 import EditPersonal from '@/view/editPersonal.vue'
 import Register from '@/view/Register.vue'
 import Index from '@/view/Index.vue'
-// import ArticleDetail from '../view/'
+import ArticleDetail from '../view/articleDetail.vue'
+import MyFollow from '../view/myFollow.vue'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,14 @@ var router = new VueRouter({
     name: 'Index',
     path: '/',
     component: Index
+  }, {
+    name: 'ArticleDetail',
+    path: '/articleDetail/:id',
+    component: ArticleDetail
+  }, {
+    name: 'MyFollow',
+    path: '/myFollow',
+    component: MyFollow
   }]
 })
 
