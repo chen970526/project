@@ -32,10 +32,17 @@ export const collectArticleById = (id) => {
     url: `/post_star/${id}`
   })
 }
-// 9.获取我的收藏
+// 获取我的收藏
 
 export const getMyCollections = (id) => {
   return axios({
     url: `/user_star`
+  })
+}
+
+export const getCommentsById = (id, params) => {
+  return axios({
+    url: `/post_comment/${id}`,
+    params
   })
 }

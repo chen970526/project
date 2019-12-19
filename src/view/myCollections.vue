@@ -26,6 +26,10 @@ export default {
   async mounted () {
     let res = await getMyCollections()
     console.log(res)
+    if (res.status === 200) {
+      this.collectList = res.data.data
+    }
+    console.log(this.collectList)
   }
 }
 </script>
