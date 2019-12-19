@@ -4,7 +4,7 @@
       <span slot="left" class="iconfont iconjiantou2" @click="$router.back()"></span>
     </myheader>
     <div class="list">
-      <div class="box" v-for="item in followList" :key="item.id">
+      <div class="box" v-for="(item,index) in followList" :key="item.id">
         <img :src="item.head_img" alt />
         <div class="center">
           <p>{{item.nickname}}</p>
@@ -43,7 +43,10 @@ export default {
     async unFollow (id, index) {
       let res = await unFollowUser(id)
       console.log(res)
-      console.log(index)
+      if (res.status === 200) {
+        this.$toast.success(res.data.message)
+        this.followList.splice(index, 1)
+      }
     }
   }
 }

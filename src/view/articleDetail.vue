@@ -86,7 +86,7 @@ export default {
     async likeThisArticle () {
       let res1 = await likeArticleById(this.article.user.id)
       console.log(res1)
-      this.article.like_length = !this.article.like_length
+      this.article.has_like = !this.article.has_like
       this.$toast.success(res1.data.message)
       if (res1.data.message === '点赞成功') {
         this.article.like_length++
