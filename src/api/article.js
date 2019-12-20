@@ -40,6 +40,7 @@ export const getMyCollections = (id) => {
   })
 }
 
+// 获取评论列表
 export const getCommentsById = (id, params) => {
   return axios({
     url: `/post_comment/${id}`,

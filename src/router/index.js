@@ -10,6 +10,7 @@ import Index from '@/view/Index.vue'
 import ArticleDetail from '../view/articleDetail.vue'
 import MyFollow from '../view/myFollow.vue'
 import MyCollections from '../view/myCollections.vue'
+import Comments from '../view/comments.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,10 @@ var router = new VueRouter({
     name: 'MyCollections',
     path: '/myCollections',
     component: MyCollections
+  }, {
+    name: 'Comments',
+    path: '/comments/:id',
+    component: Comments
   }]
 })
 
