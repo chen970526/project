@@ -13,11 +13,16 @@
           </div>
           <span @click="replayComment(comment)">回复</span>
         </div>
-        <commentItem v-if="comment.parent" :comment="comment.parent"></commentItem>
+        <commentItem v-if="comment.parent" :comment="comment.parent" @replayComment="replayComment"></commentItem>
         <div class="text">{{comment.content}}</div>
       </div>
     </div>
-    <commentArea :article="article" :replayObj="parentReplayObj" @resetValue="parentReplayObj=null"></commentArea>
+    <commentArea
+      :article="article"
+      :replayObj="parentReplayObj"
+      @refresh="init"
+      @resetValue="parentReplayObj=null"
+    ></commentArea>
   </div>
 </template>
 
@@ -39,22 +44,27 @@ export default {
       parentReplayObj: {}
     }
   },
-  async mounted () {
-    let id = this.$route.params.id
-    let post = await getArticleDetail(id)
-    console.log(post)
-    this.article = post.data.data
-    let res = await getCommentsById(id, { pageSize: 50 })
-    console.log(res)
-    if (res.status === 200) {
-      this.commentList = res.data.data.map(value => {
-        value.user.head_img =
-          localStorage.getItem('hm_40_baseURL') + value.user.head_img
-        return value
-      })
-    }
+  mounted () {
+    this.init()
   },
   methods: {
+    async init () {
+      let id = this.$route.params.id
+      let post = await getArticleDetail(id)
+      console.log(post)
+      this.article = post.data.data
+      let res = await getCommentsById(id, { pageSize: 50 })
+      console.log(res)
+      if (res.status === 200) {
+        this.commentList = res.data.data.map(value => {
+          value.user.head_img =
+            localStorage.getItem('hm_40_baseURL') + value.user.head_img
+          return value
+        })
+      }
+      // 让评论列表滚到顶部
+      window.scrollTo(0, 0)
+    },
     replayComment (comment) {
       this.parentReplayObj = comment
     }

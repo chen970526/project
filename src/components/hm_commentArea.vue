@@ -16,7 +16,7 @@
     <div class="inputcomment" v-show="isFocus">
       <textarea ref="commtext" rows="5" :placeholder="placeholder"></textarea>
       <div>
-        <span>发送</span>
+        <span @click="send">发送</span>
         <span @click="cancelReplay">取消</span>
       </div>
     </div>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { collectArticleById } from '../api/article.js'
+import { collectArticleById, sendComment } from '../api/article.js'
 export default {
   props: ['article', 'replayObj'],
   data () {
@@ -60,6 +60,22 @@ export default {
       this.isFocus = false
 
       this.$emit('resetValue')
+    },
+    async send () {
+      // console.log(123)
+      let data = {
+        content: this.$refs.commtext.value
+      }
+      console.log(data)
+
+      let res = await sendComment(this.article.id, data)
+      console.log(res)
+      if (res.data.message === '评论发布成功') {
+        this.$toast.success(res.data.message)
+        this.$refs.commtext.value = ''
+        this.isFocus = false
+        this.$emit('refresh')
+      }
     }
   }
 }
